@@ -1,0 +1,10 @@
+<launch>
+    <arg name="lidar_type" value="$(env RPLIDAR_TYPE)" doc="lidar_type [a1,4ROS]"/>
+    <!-- 启动base.launch文件 -->
+    <!-- Launch the base.launch file -->
+    <include file="$(find yahboomcar_laser)/launch/base.launch"/>
+    <!-- 启动激光雷达跟随节点 -->
+    <!-- Activate lidar follow node -->
+    <node name='laser_Avoidance' pkg="yahboomcar_laser" type="laser_Tracker_a1.py" required="true" output="screen" if="$(eval arg('lidar_type') == 'a1')"/>
+    <node name='laser_Avoidance' pkg="yahboomcar_laser" type="laser_Tracker_4ROS.py" required="true" output="screen" if="$(eval arg('lidar_type') == '4ROS')"/>
+</launch>

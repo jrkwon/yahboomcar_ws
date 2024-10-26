@@ -1,0 +1,19 @@
+<launch>
+    <arg name="use_rviz" default="true"/>
+    <arg name="map" default="map"/>
+    <arg name="nav_use_rotvel" default="true"/>
+    <!--load map-->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find yahboomcar_autodrive)/maps/$(arg map).yaml"/>
+
+    <!--node pkg="rviz" type="rviz" name="rviz" args="-d $(find yahboomcar_autodrive)/rviz/road.rviz" if="$(arg use_rviz)"/-->
+
+    <!--include move base-->
+    <include file="$(find yahboomcar_nav)/launch/library/move_base.launch">
+        <arg name="nav_use_rotvel" value="$(arg nav_use_rotvel)"/>
+ 	<!--remap from="cmd_vel" to="nav_cmd_vel"/-->
+    </include>
+
+     <!--node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="4.61803531647 1.13519071579 0 -1.57 0 0 map odom 100" /-->
+     <!--node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="-0.0371407866478 0.637289047241 0 3.14 0 0 map odom 100" /-->
+    <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="-1.59699928761 -2.10185694695 0 1.57 0 0 map odom 100" />
+</launch>

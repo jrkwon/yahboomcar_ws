@@ -1,0 +1,8 @@
+<launch>
+    <arg name="version" default="py" doc="version type [py,cpp]"/>
+    <arg name="camera_type" value="$(env CAMERA_TYPE)" doc="camera_type [astrapro,astraplus]"/>
+    <include file="$(find astra_camera)/launch/astrapro.launch" if="$(eval arg('camera_type') == 'astrapro')"/>
+    <include file="$(find astra_camera)/launch/astraproplus.launch" if="$(eval arg('camera_type') == 'astraplus')"/>
+    <node name="astra_depth_image_py" pkg="yahboomcar_visual" type="astra_depth_image.py" output="screen" if="$(eval arg('version') == 'py')"/>
+    <node name="astra_depth_image_cpp" pkg="yahboomcar_visual" type="astra_depth_image" output="screen" unless="$(eval arg('version') == 'py')"/>
+</launch>
